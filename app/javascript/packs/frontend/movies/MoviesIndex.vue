@@ -1,7 +1,4 @@
-<style>
-  .text-center {
-    text-align: center;
-  }
+<style scoped>
 </style>
 
 <template>

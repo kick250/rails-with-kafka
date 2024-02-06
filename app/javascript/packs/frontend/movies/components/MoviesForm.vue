@@ -80,13 +80,16 @@ export default {
       };
     },
 
-    create() {
-      if (!this.checkFields()) return;
+    async create() {
+      try {
+        if (!this.checkFields()) return;
 
-      const service = MoviesService.build();
-      service.create(this.getMovieData())
-        .then(response => console.log(response))
-        .catch(error => console.log(error));
+        const service = MoviesService.build();
+        await service.create(this.getMovieData());
+        this.clearFields();
+      } catch (error) {
+        console.log(error);
+      }
     },
 
     checkFields() {
@@ -108,6 +111,13 @@ export default {
       }
 
       return true;
+    },
+
+    clearFields() {
+      this.name = "";
+      this.category = undefined;
+      this.imageLink = "";
+      this.releaseDate = "";
     }
   }
 }

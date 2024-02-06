@@ -6,6 +6,11 @@ class MoviesController < ApplicationController
     broker = Kafka::BrokerIntegration.build
 
     broker.publish(message: movie_params, topic: Movie::CREATE_TOPIC)
+
+    render(
+      json: { result: 'success' },
+      status: :ok
+    )
   end
 
   private

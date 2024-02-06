@@ -1,5 +1,5 @@
 import { createApp } from 'vue/dist/vue.esm-bundler.js';
-import MoviesIndex from './frontend/movies/MoviesIndex.vue';
+import MoviesIndex from './frontend/movies/components/MoviesIndex.vue';
 
 
 document.addEventListener("DOMContentLoaded", () => {

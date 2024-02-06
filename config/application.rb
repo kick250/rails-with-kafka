@@ -29,6 +29,7 @@ module WebApp
     config.autoload_lib(ignore: %w(assets tasks))
 
     config.autoload_paths << Rails.root.join('app', 'integrations')
+    config.autoload_paths << Rails.root.join('app', 'handlers')
 
     # Configuration for the application, engines, and railties goes here.
     #

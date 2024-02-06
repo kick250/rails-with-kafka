@@ -3,7 +3,8 @@ require 'kafka'
 module Kafka
   class BrokerIntegration
     def self.build
-      servers = ['localhost:9092']
+      config = Config.build
+      servers = config.servers
       new(
         kafka: Kafka.new(servers)
       )

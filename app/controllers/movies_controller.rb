@@ -3,7 +3,9 @@ class MoviesController < ApplicationController
   end
 
   def create
-    movie_params
+    broker = Kafka::BrokerIntegration.build
+
+    broker.publish(message: movie_params, topic: Movie::CREATE_TOPIC)
   end
 
   private

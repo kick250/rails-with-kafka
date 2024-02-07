@@ -11,7 +11,11 @@ export default class CategoriesService {
   }
 
   async getAll() {
-    const { data } = await self._httpClient.get("/categories");
-    return data['results'];
+    try {
+      const { data } = await self._httpClient.get("/categories");
+      return data['results'];
+    } catch (error) {
+      console.log(error);
+    }
   }
 }

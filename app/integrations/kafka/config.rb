@@ -5,7 +5,7 @@ module Kafka
     end
 
     def servers
-      ['localhost:9092']
+      ['kafka:9092']
     end
 
     def topics

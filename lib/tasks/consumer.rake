@@ -10,6 +10,7 @@ namespace :consumer do
       consumer.subscribe(topic)
     end
 
+    puts "Consumer ativado"
     consumer.each_message do |message|
       topic = message.topic
       data  = JSON.parse(message.value)

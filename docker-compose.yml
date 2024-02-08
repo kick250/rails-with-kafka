@@ -3,32 +3,71 @@ services:
   zookeeper:
     image: bitnami/zookeeper
     container_name: zookeeper-container
+    restart: always
     networks:
       - development-network
     ports:
       - "2181:2181"
+    expose:
+      - 2181
     environment:
       - ALLOW_ANONYMOUS_LOGIN=yes
   kafka:
     image: bitnami/kafka
     container_name: kafka-container
+    restart: always
     networks:
       - development-network
     ports:
       - "9092:9092"
+    expose:
+      - 9092
     environment:
+      - ALLOW_PLAINTEXT_LISTENER=yes
+      - KAFKA_ENABLE_KRAFT=no
       - KAFKA_CFG_ZOOKEEPER_CONNECT=zookeeper:2181
       - KAFKA_CFG_LISTENERS=PLAINTEXT://:9092
-      - KAFKA_CFG_ADVERTISED_LISTENERS=PLAINTEXT://localhost:9092
+      - KAFKA_CFG_ADVERTISED_LISTENERS=PLAINTEXT://kafka:9092
     depends_on:
       - "zookeeper"
   database:
     image: postgres
     container_name: database-container
+    restart: always
+    networks:
+      - development-network
     ports:
       - "5432:5432"
     environment:
       POSTGRES_PASSWORD: admin
+  rails:
+    build:
+      dockerfile: ./server.dockerfile
+      context: .
+    image: rails/movies-application
+    container_name: application-container
+    restart: always
+    networks:
+      - development-network
+    ports:
+      - "3005:3005"
+    expose:
+      - 3005
+    depends_on:
+      - database
+      - kafka
+  consumer:
+    build:
+      dockerfile: ./consumer.dockerfile
+      context: .
+    image: rails/consumer-application
+    container_name: consumer-container
+    restart: always
+    networks:
+      - development-network
+    depends_on:
+      - database
+      - kafka
 
 networks:
   development-network:
